@@ -97,6 +97,25 @@ export interface Translations {
     selectLanguage: string;
     selectCurrency: string;
   };
+  dashboard: {
+    title: string;
+    greeting: string;
+    properties: string;
+    monthlyRevenue: string;
+    latePayments: string;
+    occupancyRate: string;
+    thisMonth: string;
+    thisYear: string;
+    revenue: string;
+    expenses: string;
+    net: string;
+    totalRevenue: string;
+    quickActions: string;
+    addProperty: string;
+    recordPayment: string;
+    addExpense: string;
+    addTenant: string;
+  };
 }
 
 export const translations: Record<Language, Translations> = {
@@ -197,6 +216,25 @@ export const translations: Record<Language, Translations> = {
       selectLanguage: 'Choisir la langue',
       selectCurrency: 'Choisir la devise',
     },
+    dashboard: {
+      title: 'Tableau de bord',
+      greeting: 'Bonjour',
+      properties: 'Biens',
+      monthlyRevenue: 'Revenus du mois',
+      latePayments: 'En retard',
+      occupancyRate: 'Taux d\'occupation',
+      thisMonth: 'Ce mois-ci',
+      thisYear: 'Cette année',
+      revenue: 'Revenus',
+      expenses: 'Dépenses',
+      net: 'Net',
+      totalRevenue: 'Revenus totaux',
+      quickActions: 'Actions rapides',
+      addProperty: 'Ajouter un bien',
+      recordPayment: 'Enregistrer paiement',
+      addExpense: 'Ajouter dépense',
+      addTenant: 'Ajouter locataire',
+    },
   },
   en: {
     common: {
@@ -294,6 +332,25 @@ export const translations: Record<Language, Translations> = {
       currency: 'Currency',
       selectLanguage: 'Select Language',
       selectCurrency: 'Select Currency',
+    },
+    dashboard: {
+      title: 'Dashboard',
+      greeting: 'Hello',
+      properties: 'Properties',
+      monthlyRevenue: 'Monthly Revenue',
+      latePayments: 'Late',
+      occupancyRate: 'Occupancy Rate',
+      thisMonth: 'This Month',
+      thisYear: 'This Year',
+      revenue: 'Revenue',
+      expenses: 'Expenses',
+      net: 'Net',
+      totalRevenue: 'Total Revenue',
+      quickActions: 'Quick Actions',
+      addProperty: 'Add Property',
+      recordPayment: 'Record Payment',
+      addExpense: 'Add Expense',
+      addTenant: 'Add Tenant',
     },
   },
   ar: {
@@ -393,6 +450,25 @@ export const translations: Record<Language, Translations> = {
       selectLanguage: 'اختر اللغة',
       selectCurrency: 'اختر العملة',
     },
+    dashboard: {
+      title: 'لوحة القيادة',
+      greeting: 'مرحبا',
+      properties: 'العقارات',
+      monthlyRevenue: 'إيرادات الشهر',
+      latePayments: 'متأخر',
+      occupancyRate: 'معدل الإشغال',
+      thisMonth: 'هذا الشهر',
+      thisYear: 'هذا العام',
+      revenue: 'الإيرادات',
+      expenses: 'المصاريف',
+      net: 'الصافي',
+      totalRevenue: 'إجمالي الإيرادات',
+      quickActions: 'إجراءات سريعة',
+      addProperty: 'إضافة عقار',
+      recordPayment: 'تسجيل دفعة',
+      addExpense: 'إضافة مصروف',
+      addTenant: 'إضافة مستأجر',
+    },
   },
   es: {
     common: {
@@ -490,6 +566,25 @@ export const translations: Record<Language, Translations> = {
       currency: 'Moneda',
       selectLanguage: 'Seleccionar Idioma',
       selectCurrency: 'Seleccionar Moneda',
+    },
+    dashboard: {
+      title: 'Panel de Control',
+      greeting: 'Hola',
+      properties: 'Propiedades',
+      monthlyRevenue: 'Ingresos del Mes',
+      latePayments: 'Atrasados',
+      occupancyRate: 'Tasa de Ocupación',
+      thisMonth: 'Este Mes',
+      thisYear: 'Este Año',
+      revenue: 'Ingresos',
+      expenses: 'Gastos',
+      net: 'Neto',
+      totalRevenue: 'Ingresos Totales',
+      quickActions: 'Acciones Rápidas',
+      addProperty: 'Añadir Propiedad',
+      recordPayment: 'Registrar Pago',
+      addExpense: 'Añadir Gasto',
+      addTenant: 'Añadir Inquilino',
     },
   },
 };

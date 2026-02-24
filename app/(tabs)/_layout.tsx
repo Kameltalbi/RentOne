@@ -5,6 +5,7 @@ import { useApp } from '../../contexts/AppContext';
 
 export default function TabLayout() {
   const { t } = useApp();
+  const router = useRouter();
   
   return (
     <Tabs
@@ -36,6 +37,23 @@ export default function TabLayout() {
           title: t.tabs.properties,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" size={size} color={color} />
+          ),
+          headerRight: () => (
+            <TouchableOpacity 
+              onPress={() => router.push('/settings')}
+              style={{ marginRight: 16 }}
+            >
+              <Ionicons name="settings-outline" size={24} color={colors.text} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="tenants"
+        options={{
+          title: t.tenant.title,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="people" size={size} color={color} />
           ),
         }}
       />
