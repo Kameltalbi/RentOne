@@ -2,7 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Property } from '../types';
-import { colors, spacing, borderRadius, fontSize, shadows } from '../constants/theme';
+import { colors, spacing, fontSize, borderRadius, shadows } from '../constants/theme';
+import { useApp } from '../contexts/AppContext';
+import { formatCurrency } from '../constants/currencies';
 
 interface PropertyCardProps {
   property: Property;
@@ -10,6 +12,7 @@ interface PropertyCardProps {
 }
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onPress }) => {
+  const { currency } = useApp();
   const typeIcons: Record<string, keyof typeof Ionicons.glyphMap> = {
     apartment: 'business',
     house: 'home',
@@ -40,7 +43,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onPress })
             <Text style={styles.detail}>{property.surface} m²</Text>
           </View>
           {property.monthlyRent && (
-            <Text style={styles.rent}>{property.monthlyRent}€/mois</Text>
+            <Text style={styles.rent}>{formatCurrency(property.monthlyRent, property.currency || currency)}/mois</Text>
           )}
         </View>
       </View>

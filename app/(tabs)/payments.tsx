@@ -8,9 +8,12 @@ import { PaymentCard } from '../../components/PaymentCard';
 import { colors, spacing, fontSize } from '../../constants/theme';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { useApp } from '../../contexts/AppContext';
+import { formatCurrency } from '../../constants/currencies';
 
 export default function PaymentsScreen() {
   const router = useRouter();
+  const { currency } = useApp();
   const [payments, setPayments] = useState<Payment[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
   const [filter, setFilter] = useState<'all' | 'paid' | 'pending' | 'late'>('all');
@@ -61,7 +64,7 @@ export default function PaymentsScreen() {
       <View style={styles.statsContainer}>
         <View style={styles.statCard}>
           <Ionicons name="checkmark-circle" size={24} color={colors.success} />
-          <Text style={styles.statValue}>{stats.total}€</Text>
+          <Text style={styles.statValue}>{formatCurrency(stats.total, currency)}</Text>
           <Text style={styles.statLabel}>Encaissé</Text>
         </View>
         <View style={styles.statCard}>
