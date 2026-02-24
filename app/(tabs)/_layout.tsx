@@ -127,7 +127,7 @@ export default function TabLayout() {
         options={{
           title: t.tabs.payments,
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cash" size={size} color={color} />
+            <Ionicons name="wallet" size={size} color={color} />
           ),
           headerRight: MenuButton,
         }}
