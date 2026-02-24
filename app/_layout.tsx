@@ -1,26 +1,11 @@
 import { Stack } from 'expo-router';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { AppProvider } from '../contexts/AppContext';
-import { SubscriptionProvider } from '../contexts/SubscriptionContext';
+import { View, Text } from 'react-native';
 
 export default function RootLayout() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <AppProvider>
-        <SubscriptionProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="onboarding" />
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="property/add" options={{ presentation: 'modal' }} />
-            <Stack.Screen name="property/[id]" />
-            <Stack.Screen name="tenant/add" options={{ presentation: 'modal' }} />
-            <Stack.Screen name="tenant/[id]" />
-            <Stack.Screen name="payment/add" options={{ presentation: 'modal' }} />
-            <Stack.Screen name="expense/add" options={{ presentation: 'modal' }} />
-            <Stack.Screen name="premium" options={{ presentation: 'modal', headerShown: false }} />
-            <Stack.Screen name="settings" options={{ presentation: 'modal' }} />
-          </Stack>
+    <Stack>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
         </SubscriptionProvider>
       </AppProvider>
     </GestureHandlerRootView>
