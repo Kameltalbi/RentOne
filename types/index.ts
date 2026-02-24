@@ -43,6 +43,7 @@ export interface Payment {
   paidDate?: string;
   status: 'paid' | 'pending' | 'late' | 'partial';
   method?: 'bank_transfer' | 'check' | 'cash' | 'other';
+  description?: string;
   notes?: string;
   createdAt: string;
 }

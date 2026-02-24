@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, Linking } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, Linking, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Tenant, Property, Payment } from '../../types';
@@ -7,6 +7,7 @@ import { storage } from '../../utils/storage';
 import { colors, spacing, fontSize, borderRadius } from '../../constants/theme';
 import { useApp } from '../../contexts/AppContext';
 import { formatCurrency } from '../../constants/currencies';
+import { generateRentReceipt, generateReceiptNumber } from '../../utils/pdfGenerator';
 
 export default function TenantDetailsScreen() {
   const router = useRouter();
@@ -52,6 +53,24 @@ export default function TenantDetailsScreen() {
   const handleEmail = () => {
     if (tenant?.email) {
       Linking.openURL(`mailto:${tenant.email}`);
+    }
+  };
+
+  const handleGenerateReceipt = async (payment: Payment) => {
+    if (!tenant || !property) return;
+
+    try {
+      const receiptNumber = generateReceiptNumber();
+      await generateRentReceipt({
+        payment,
+        property,
+        tenant,
+        receiptNumber,
+        currency: payment.currency || property.currency || currency,
+      });
+    } catch (error) {
+      Alert.alert('Erreur', 'Impossible de générer le reçu PDF');
+      console.error('PDF generation error:', error);
     }
   };
 
@@ -166,13 +185,23 @@ export default function TenantDetailsScreen() {
                   {new Date(payment.dueDate).toLocaleDateString('fr-FR')}
                 </Text>
               </View>
-              <View style={[styles.statusBadge, styles[`status${payment.status}`]]}>
-                <Text style={styles.statusText}>
-                  {payment.status === 'paid' && 'Payé'}
-                  {payment.status === 'pending' && 'En attente'}
-                  {payment.status === 'late' && 'En retard'}
-                  {payment.status === 'partial' && 'Partiel'}
-                </Text>
+              <View style={styles.paymentRight}>
+                <View style={[styles.statusBadge, styles[`status${payment.status}`]]}>
+                  <Text style={styles.statusText}>
+                    {payment.status === 'paid' && 'Payé'}
+                    {payment.status === 'pending' && 'En attente'}
+                    {payment.status === 'late' && 'En retard'}
+                    {payment.status === 'partial' && 'Partiel'}
+                  </Text>
+                </View>
+                {payment.status === 'paid' && (
+                  <TouchableOpacity 
+                    style={styles.pdfButton}
+                    onPress={() => handleGenerateReceipt(payment)}
+                  >
+                    <Ionicons name="document-text-outline" size={20} color={colors.primary} />
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           ))}
@@ -337,10 +366,20 @@ const styles = StyleSheet.create({
     fontSize: fontSize.sm,
     color: colors.textSecondary,
   },
+  paymentRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
   statusBadge: {
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xs,
     borderRadius: borderRadius.sm,
+  },
+  pdfButton: {
+    padding: spacing.xs,
+    borderRadius: borderRadius.sm,
+    backgroundColor: colors.primary + '10',
   },
   statuspaid: {
     backgroundColor: colors.success + '20',
