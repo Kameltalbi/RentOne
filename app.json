@@ -57,6 +57,9 @@
         "projectId": "rentone-production"
       }
     },
+    "updates": {
+      "enabled": false
+    },
     "owner": "kameltalbi",
     "privacy": "public",
     "description": "Application professionnelle de gestion locative pour propriétaires. Gérez vos biens, locataires, paiements et dépenses en toute simplicité.",
