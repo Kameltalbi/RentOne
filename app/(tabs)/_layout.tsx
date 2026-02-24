@@ -26,9 +26,17 @@ export default function TabLayout() {
       <Tabs.Screen
         name="dashboard"
         options={{
-          title: 'Dashboard',
+          title: t.dashboard.title,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="grid" size={size} color={color} />
+          ),
+          headerRight: () => (
+            <TouchableOpacity 
+              onPress={() => router.push('/settings')}
+              style={{ marginRight: 16 }}
+            >
+              <Ionicons name="settings-outline" size={24} color={colors.text} />
+            </TouchableOpacity>
           ),
         }}
       />
