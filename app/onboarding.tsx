@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +12,7 @@ export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('fr');
   const [selectedCurrency, setSelectedCurrency] = useState('EUR');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const languages: { code: Language; name: string; flag: string }[] = [
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
@@ -87,34 +88,63 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  const renderCurrencySelection = () => (
-    <View style={styles.stepContainer}>
-      <Text style={styles.title}>Choisissez votre devise</Text>
-      <Text style={styles.subtitle}>Choose your currency</Text>
-      <ScrollView style={styles.currencyScroll} showsVerticalScrollIndicator={false}>
-        {CURRENCIES.slice(0, 12).map((curr) => (
-          <TouchableOpacity
-            key={curr.code}
-            style={[styles.option, selectedCurrency === curr.code && styles.optionActive]}
-            onPress={() => setSelectedCurrency(curr.code)}
-          >
-            <View style={styles.optionLeft}>
-              <Text style={styles.currencySymbol}>{curr.symbol}</Text>
-              <View>
-                <Text style={[styles.optionText, selectedCurrency === curr.code && styles.optionTextActive]}>
-                  {curr.name} ({curr.code})
-                </Text>
-                <Text style={styles.countries}>{curr.countries.slice(0, 2).join(', ')}</Text>
+  const renderCurrencySelection = () => {
+    const filteredCurrencies = CURRENCIES.filter(curr => 
+      searchQuery === '' || 
+      curr.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      curr.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      curr.countries.some(country => country.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+
+    return (
+      <View style={styles.stepContainer}>
+        <Text style={styles.title}>Choisissez votre devise</Text>
+        <Text style={styles.subtitle}>Choose your currency</Text>
+        
+        <View style={styles.searchContainer}>
+          <Ionicons name="search" size={20} color={colors.textSecondary} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Rechercher une devise..."
+            placeholderTextColor={colors.textSecondary}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+          {searchQuery !== '' && (
+            <TouchableOpacity onPress={() => setSearchQuery('')}>
+              <Ionicons name="close-circle" size={20} color={colors.textSecondary} />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <ScrollView style={styles.currencyScroll} showsVerticalScrollIndicator={false}>
+          {filteredCurrencies.map((curr) => (
+            <TouchableOpacity
+              key={curr.code}
+              style={[styles.option, selectedCurrency === curr.code && styles.optionActive]}
+              onPress={() => setSelectedCurrency(curr.code)}
+            >
+              <View style={styles.optionLeft}>
+                <Text style={styles.currencySymbol}>{curr.symbol}</Text>
+                <View>
+                  <Text style={[styles.optionText, selectedCurrency === curr.code && styles.optionTextActive]}>
+                    {curr.name} ({curr.code})
+                  </Text>
+                  <Text style={styles.countries}>{curr.countries.slice(0, 2).join(', ')}</Text>
+                </View>
               </View>
-            </View>
-            {selectedCurrency === curr.code && (
-              <Ionicons name="checkmark-circle" size={24} color={colors.primary} />
-            )}
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
-  );
+              {selectedCurrency === curr.code && (
+                <Ionicons name="checkmark-circle" size={24} color={colors.primary} />
+              )}
+            </TouchableOpacity>
+          ))}
+          {filteredCurrencies.length === 0 && (
+            <Text style={styles.noResults}>Aucune devise trouvée</Text>
+          )}
+        </ScrollView>
+      </View>
+    );
+  };
 
   const steps = [renderWelcome, renderLanguageSelection, renderCurrencySelection];
 
@@ -231,8 +261,32 @@ const styles = StyleSheet.create({
   optionsList: {
     gap: spacing.sm,
   },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    gap: spacing.sm,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: fontSize.md,
+    color: colors.text,
+    paddingVertical: spacing.xs,
+  },
   currencyScroll: {
     maxHeight: 400,
+  },
+  noResults: {
+    textAlign: 'center',
+    color: colors.textSecondary,
+    fontSize: fontSize.md,
+    paddingVertical: spacing.xl,
   },
   option: {
     flexDirection: 'row',

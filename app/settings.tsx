@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useApp } from '../contexts/AppContext';
@@ -10,6 +10,7 @@ import { colors, spacing, fontSize, borderRadius } from '../constants/theme';
 export default function SettingsScreen() {
   const router = useRouter();
   const { language, setLanguage, currency, setCurrency, t } = useApp();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const languages: { code: Language; name: string; flag: string }[] = [
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
@@ -52,7 +53,29 @@ export default function SettingsScreen() {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{t.settings.currency}</Text>
-          {CURRENCIES.map((curr) => (
+          
+          <View style={styles.searchContainer}>
+            <Ionicons name="search" size={20} color={colors.textSecondary} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Rechercher une devise..."
+              placeholderTextColor={colors.textSecondary}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+            {searchQuery !== '' && (
+              <TouchableOpacity onPress={() => setSearchQuery('')}>
+                <Ionicons name="close-circle" size={20} color={colors.textSecondary} />
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {CURRENCIES.filter(curr => 
+            searchQuery === '' || 
+            curr.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            curr.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            curr.countries.some(country => country.toLowerCase().includes(searchQuery.toLowerCase()))
+          ).map((curr) => (
             <TouchableOpacity
               key={curr.code}
               style={[styles.option, currency === curr.code && styles.optionActive]}
@@ -156,5 +179,23 @@ const styles = StyleSheet.create({
     fontSize: fontSize.sm,
     color: colors.textSecondary,
     marginTop: spacing.xs,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    gap: spacing.sm,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: fontSize.md,
+    color: colors.text,
+    paddingVertical: spacing.xs,
   },
 });
