@@ -1,17 +1,29 @@
 export const colors = {
-  primary: '#4F46E5',
-  primaryDark: '#4338CA',
-  primaryLight: '#818CF8',
-  secondary: '#10B981',
-  danger: '#EF4444',
-  warning: '#F59E0B',
-  background: '#F9FAFB',
-  card: '#FFFFFF',
-  text: '#111827',
+  // Primary colors - Blue theme
+  primary: '#2563EB',        // Bleu moyen
+  primaryDark: '#1E3A8A',    // Bleu profond
+  primaryLight: '#DBEAFE',   // Bleu clair
+  
+  // Background colors
+  background: '#F9FAFB',     // Gris clair fond
+  card: '#FFFFFF',           // Blanc
+  
+  // Text colors
+  text: '#374151',           // Gris texte
   textSecondary: '#6B7280',
+  
+  // Border
   border: '#E5E7EB',
-  success: '#10B981',
-  info: '#3B82F6',
+  
+  // Status colors
+  success: '#16A34A',        // Succès (payé)
+  error: '#DC2626',          // Alerte (retard)
+  warning: '#F59E0B',        // En attente
+  danger: '#DC2626',         // Alias for error
+  info: '#2563EB',           // Info (primary blue)
+  
+  // Legacy/compatibility
+  secondary: '#2563EB',
 };
 
 export const spacing = {
