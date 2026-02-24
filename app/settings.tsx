@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Tex
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useApp } from '../contexts/AppContext';
+import { useSubscription } from '../contexts/SubscriptionContext';
 import { Language } from '../i18n/translations';
 import { CURRENCIES } from '../constants/currencies';
 import { colors, spacing, fontSize, borderRadius } from '../constants/theme';
@@ -221,5 +222,52 @@ const styles = StyleSheet.create({
     fontSize: fontSize.md,
     color: colors.text,
     paddingVertical: spacing.xs,
+  },
+  premiumBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.primary,
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.md,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    gap: spacing.md,
+  },
+  premiumIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  premiumText: {
+    flex: 1,
+  },
+  premiumTitle: {
+    fontSize: fontSize.md,
+    fontWeight: '700',
+    color: '#fff',
+    marginBottom: spacing.xs,
+  },
+  premiumSubtitle: {
+    fontSize: fontSize.sm,
+    color: '#fff',
+    opacity: 0.9,
+  },
+  premiumActiveBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.success + '20',
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.md,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    gap: spacing.sm,
+  },
+  premiumActiveText: {
+    fontSize: fontSize.md,
+    fontWeight: '600',
+    color: colors.success,
   },
 });
