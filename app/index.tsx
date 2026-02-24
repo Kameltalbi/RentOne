@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { colors } from '../constants/theme';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function Index() {
   return (
@@ -8,12 +7,23 @@ export default function Index() {
       <Text style={styles.subtitle}>L'application démarre correctement</Text>
     </View>
   );
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
-  }
-
-  return <Redirect href={hasCompletedOnboarding ? "/(tabs)" : "/onboarding"} />;
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#2563eb',
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: 'white',
+  },
+});
