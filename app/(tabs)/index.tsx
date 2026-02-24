@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Property } from '../../types';
 import { storage } from '../../utils/storage';
 import { PropertyCard } from '../../components/PropertyCard';
 import { colors, spacing, fontSize } from '../../constants/theme';
+import { useSubscription } from '../../contexts/SubscriptionContext';
 
 export default function PropertiesScreen() {
   const router = useRouter();
+  const { canAddProperty, isPremium } = useSubscription();
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -23,6 +25,21 @@ export default function PropertiesScreen() {
   };
 
   const handleAddProperty = () => {
+    if (!canAddProperty(properties.length)) {
+      Alert.alert(
+        'Limite atteinte',
+        'Vous avez atteint la limite de 1 bien en version gratuite. Passez à Premium pour ajouter des biens illimités !',
+        [
+          { text: 'Annuler', style: 'cancel' },
+          { 
+            text: 'Voir Premium', 
+            onPress: () => router.push('/premium'),
+            style: 'default'
+          },
+        ]
+      );
+      return;
+    }
     router.push('/property/add');
   };
 

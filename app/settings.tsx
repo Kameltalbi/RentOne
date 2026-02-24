@@ -10,6 +10,7 @@ import { colors, spacing, fontSize, borderRadius } from '../constants/theme';
 export default function SettingsScreen() {
   const router = useRouter();
   const { language, setLanguage, currency, setCurrency, t } = useApp();
+  const { isPremium } = useSubscription();
   const [searchQuery, setSearchQuery] = useState('');
 
   const languages: { code: Language; name: string; flag: string }[] = [
@@ -22,12 +23,35 @@ export default function SettingsScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.closeButton}>
-          <Ionicons name="close" size={28} color={colors.text} />
+        <TouchableOpacity onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{t.settings.title}</Text>
-        <View style={{ width: 40 }} />
+        <View style={{ width: 24 }} />
       </View>
+
+      {!isPremium && (
+        <TouchableOpacity 
+          style={styles.premiumBanner}
+          onPress={() => router.push('/premium')}
+        >
+          <View style={styles.premiumIcon}>
+            <Ionicons name="rocket" size={24} color="#fff" />
+          </View>
+          <View style={styles.premiumText}>
+            <Text style={styles.premiumTitle}>Passez à Premium</Text>
+            <Text style={styles.premiumSubtitle}>Biens illimités et plus encore</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={24} color="#fff" />
+        </TouchableOpacity>
+      )}
+
+      {isPremium && (
+        <View style={styles.premiumActiveBanner}>
+          <Ionicons name="checkmark-circle" size={24} color={colors.success} />
+          <Text style={styles.premiumActiveText}>Compte Premium actif</Text>
+        </View>
+      )}
 
       <ScrollView style={styles.content}>
         <View style={styles.section}>
